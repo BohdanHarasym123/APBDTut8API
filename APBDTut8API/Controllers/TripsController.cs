@@ -49,9 +49,6 @@ public class TripsController : ControllerBase
     {
        // if (!ModelState.IsValid)
        //     return BadRequest(ModelState);
-
-       Console.WriteLine("Got a POST request!");
-       Console.WriteLine($"FirstName: {client.FirstName}");
        
         try
         {
@@ -61,6 +58,22 @@ public class TripsController : ControllerBase
         catch (Exception ex)    
         {
             return StatusCode(500, new {message = ex.Message});
+        }
+    }
+
+    [HttpPut("clients/{clientId}/trips/{tripId}")]
+    public async Task<IActionResult> RegisterClient(int clientId, int tripId)
+    {
+        try
+        {
+            await _service.RegisterClientForTripAsync(clientId, tripId);
+            return Created("", $"Client {clientId} registered for trip {tripId}");
+        }
+        catch (Exception ex)
+        {
+            if(ex.Message.Contains("not found")) return NotFound(ex.Message);
+            
+            return StatusCode(500, ex.Message);
         }
     }
 }

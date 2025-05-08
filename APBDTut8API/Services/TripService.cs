@@ -106,4 +106,58 @@ public class TripService : ITripService
         
         return (int)id!;
     }
+
+    public async Task RegisterClientForTripAsync(int clientId, int tripId)
+    {
+        using var connection = new SqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        //checking if client with such id exists
+        var checkClient = new SqlCommand(
+            "SELECT 1 FROM client WHERE IdClient = @IdClient", connection);
+        checkClient.Parameters.AddWithValue("@IdClient", clientId);
+        var existsClient = await checkClient.ExecuteScalarAsync();
+        if (existsClient == null) throw new Exception("Client not found");
+
+        //checking if trip with such id exists
+        var checkTrip = new SqlCommand(
+            "SELECT 1 FROM trip WHERE IdTrip = @IdTrip", connection);
+        checkTrip.Parameters.AddWithValue("@IdTrip", tripId);
+        var existsTrip = await checkTrip.ExecuteScalarAsync();
+        if (existsTrip == null) throw new Exception("Trip not found");
+
+        //checking if trip hasn't reached max number of participants
+        var checkCapacity = new SqlCommand(
+            "SELECT COUNT(*) FROM client_trip WHERE IdTrip = @IdTrip", connection);
+        checkCapacity.Parameters.AddWithValue("@IdTrip", tripId);
+        var currentCount = (int)await checkCapacity.ExecuteScalarAsync();
+        if(currentCount == null) currentCount = 0;
+
+        var maxCapacity = new SqlCommand(
+            "SELECT MaxPeople FROM trip WHERE IdTrip = @IdTrip", connection);
+        maxCapacity.Parameters.AddWithValue("@IdTrip", tripId);
+        
+        var maxPeople = (int)await maxCapacity.ExecuteScalarAsync();
+        if(maxPeople == null) maxPeople = 0;
+        
+        if(currentCount >= maxPeople) throw new Exception("Trip is full");
+
+        //checking if client is not already registered to this trip
+        var checkRegistration = new SqlCommand(
+            "SELECT 1 FROM client_trip WHERE IdTrip = @IdTrip AND IdClient = @IdClient", connection);
+        checkRegistration.Parameters.AddWithValue("@IdTrip", tripId);
+        checkRegistration.Parameters.AddWithValue("@IdClient", clientId);
+        var registration = await checkRegistration.ExecuteScalarAsync();
+        if(registration != null) throw new Exception("Registration already exists");
+        
+        //registration
+        var insert = new SqlCommand(
+            "INSERT INTO client_trip (IdClient, IdTrip, RegisteredAt) VALUES (@IdClient, @IdTrip, @RegisteredAt)",
+            connection);
+        insert.Parameters.AddWithValue("@IdClient", clientId);
+        insert.Parameters.AddWithValue("@IdTrip", tripId);
+        insert.Parameters.AddWithValue("@RegisteredAt", Int32.Parse(DateTime.Now.ToString("yyyyMMdd")));
+        
+        await insert.ExecuteNonQueryAsync();
+    }
 }

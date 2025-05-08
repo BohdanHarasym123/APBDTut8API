@@ -6,17 +6,19 @@
 #GET {{APBDTut8API_HostAddress}}/api/clients/10/trips 
 #Accept: application/json
 
-POST {{APBDTut8API_HostAddress}}/api/trips/clients
-Content-Type: application/json
+#POST {{APBDTut8API_HostAddress}}/api/trips/clients
+#Content-Type: application/json
+#
+#{
+#  "firstName": "Testing",
+#  "lastName": "Post",
+#  "email": "pos.com",
+#  "telephone": "1234567890",
+#  "pesel": "12323322"
+#}
 
-{
-  "firstName": "Testing",
-  "lastName": "Post",
-  "email": "pos@easde.com",
-  "telephone": "1234567890",
-  "pesel": "12323322"
-}
-
+PUT {{APBDTut8API_HostAddress}}/api/Trips/clients/46/trips/9
+Accept: application/json
 
 
 

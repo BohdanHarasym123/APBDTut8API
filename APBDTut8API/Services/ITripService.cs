@@ -8,5 +8,5 @@ public interface ITripService
 
     Task<int> AddClientAsync(ClientDTO client);
     
-    
+    Task RegisterClientForTripAsync(int clientId, int tripId);
 }
