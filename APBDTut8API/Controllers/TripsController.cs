@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Tutorial8.Services;
+using APBDTut8API.Services;
 
 namespace APBDTut8API.Controllers;
 
@@ -20,5 +20,25 @@ public class TripsController : ControllerBase
     {
         var trips = await _service.GetTripsAsync();
         return Ok(trips);
+    }
+
+    [HttpGet("/api/clients/{id}/trips")]
+    public async Task<IActionResult> GetClientTrips(int id)
+    {
+        try
+        {
+            var trips = await _service.GetTripsForClientAsync(id);
+
+            if (trips.Any())
+            {
+                return Ok(trips);
+            }
+            
+            return NotFound(new { message = "Client with such ID does not exist" });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex);
+        }
     }
 }

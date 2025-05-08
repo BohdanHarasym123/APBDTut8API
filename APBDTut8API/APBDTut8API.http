@@ -1,6 +1,8 @@
 @APBDTut8API_HostAddress = http://localhost:5151
 
-GET {{APBDTut8API_HostAddress}}/api/trips
+GET {{APBDTut8API_HostAddress}}/api/clients/1/trips
 Accept: application/json
+
+
 
 ###
