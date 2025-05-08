@@ -8,7 +8,7 @@ public class TripService : ITripService
     
     public TripService()
     {
-        _connectionString = "Data Source=localhost, 1433; User=SA; Password=yourStrong()Password; Initial Catalog=apbd; Integrated Security=False;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False";
+        _connectionString = "Data Source=localhost, 1433; User=SA; Password=yourStrong()Password; Integrated Security=False;Connect Timeout=30;Encrypt=False";
     }
 
     public async Task<IEnumerable<Trip>> GetTripsAsync()
@@ -17,7 +17,7 @@ public class TripService : ITripService
         
         using (var connection = new SqlConnection(_connectionString))
         using (var command = new SqlCommand(
-                   "SELECT * FROM trips",
+                   "SELECT * FROM trip",
                    connection))
         {
             await connection.OpenAsync();
