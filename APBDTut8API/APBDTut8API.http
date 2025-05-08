@@ -18,9 +18,7 @@
 #}
 
 #PUT {{APBDTut8API_HostAddress}}/api/clients/7/trips/9
-#Accept: application/json
 
-DELETE {{APBDTut8API_HostAddress}}/api/clients/26/trips/100
-
+DELETE {{APBDTut8API_HostAddress}}/api/clients/26/trips/9
 
 ###
