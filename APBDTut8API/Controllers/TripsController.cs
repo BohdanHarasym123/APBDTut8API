@@ -40,7 +40,27 @@ public class TripsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpPost("clients")]
+    public async Task<IActionResult> AddClient([FromBody] ClientDTO client)
+    {
+       // if (!ModelState.IsValid)
+       //     return BadRequest(ModelState);
+
+       Console.WriteLine("Got a POST request!");
+       Console.WriteLine($"FirstName: {client.FirstName}");
+       
+        try
+        {
+            var id = await _service.AddClientAsync(client);
+            return Created("", new { IdClient = id });
+        }
+        catch (Exception ex)    
+        {
+            return StatusCode(500, new {message = ex.Message});
         }
     }
 }

@@ -1,7 +1,23 @@
 @APBDTut8API_HostAddress = http://localhost:5151
 
-GET {{APBDTut8API_HostAddress}}/api/clients/11/trips
-Accept: application/json
+#GET {{APBDTut8API_HostAddress}}/api/trips
+#Accept: application/json
+
+#GET {{APBDTut8API_HostAddress}}/api/clients/10/trips 
+#Accept: application/json
+
+POST {{APBDTut8API_HostAddress}}/api/trips/clients
+Content-Type: application/json
+
+{
+  "firstName": "Testing",
+  "lastName": "Post",
+  "email": "pos@easde.com",
+  "telephone": "1234567890",
+  "pesel": "12323322"
+}
+
+
 
 
 

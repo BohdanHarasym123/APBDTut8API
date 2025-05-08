@@ -86,4 +86,24 @@ public class TripService : ITripService
         
         return trips;
     }
+
+    public async Task<int> AddClientAsync(ClientDTO client)
+    {
+        using var connection = new SqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        var command = new SqlCommand(
+            "INSERT INTO Client (FirstName, LastName, Email, Telephone, Pesel) OUTPUT INSERTED.IdClient VALUES (@FirstName, @LastName, @Email, @Telephone, @Pesel)",
+            connection);
+
+        command.Parameters.AddWithValue("@FirstName", client.FirstName);
+        command.Parameters.AddWithValue("@LastName", client.LastName);
+        command.Parameters.AddWithValue("@Email", client.Email);
+        command.Parameters.AddWithValue("@Telephone", client.Telephone);
+        command.Parameters.AddWithValue("@Pesel", client.Pesel);
+
+        var id = await command.ExecuteScalarAsync();
+        
+        return (int)id!;
+    }
 }

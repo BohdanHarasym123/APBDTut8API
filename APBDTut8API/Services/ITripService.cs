@@ -5,4 +5,8 @@ public interface ITripService
     Task<IEnumerable<Trip>> GetTripsAsync();
     
     Task<IEnumerable<ClientTripDTO>> GetTripsForClientAsync(int clientId);
+
+    Task<int> AddClientAsync(ClientDTO client);
+    
+    
 }
