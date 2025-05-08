@@ -47,9 +47,6 @@ public class TripsController : ControllerBase
     [HttpPost("clients")]
     public async Task<IActionResult> AddClient([FromBody] ClientDTO client)
     {
-       // if (!ModelState.IsValid)
-       //     return BadRequest(ModelState);
-       
         try
         {
             var id = await _service.AddClientAsync(client);

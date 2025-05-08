@@ -50,6 +50,7 @@ public class TripService : ITripService
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
+        //checking if client with such id exists
         var checkClient = new SqlCommand(
             "SELECT 1 FROM client WHERE IdClient = @IdClient", connection
         );
