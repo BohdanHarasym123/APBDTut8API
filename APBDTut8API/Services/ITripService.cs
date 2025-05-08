@@ -9,4 +9,6 @@ public interface ITripService
     Task<int> AddClientAsync(ClientDTO client);
     
     Task RegisterClientForTripAsync(int clientId, int tripId);
+    
+    Task DeleteRegistrationFromTripAsync(int clientId, int tripId);
 }

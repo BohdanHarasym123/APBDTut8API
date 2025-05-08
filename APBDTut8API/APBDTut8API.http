@@ -6,7 +6,7 @@
 #GET {{APBDTut8API_HostAddress}}/api/clients/10/trips 
 #Accept: application/json
 
-#POST {{APBDTut8API_HostAddress}}/api/trips/clients
+#POST {{APBDTut8API_HostAddress}}/api/clients
 #Content-Type: application/json
 #
 #{
@@ -17,10 +17,10 @@
 #  "pesel": "12323322"
 #}
 
-PUT {{APBDTut8API_HostAddress}}/api/Trips/clients/46/trips/9
-Accept: application/json
+#PUT {{APBDTut8API_HostAddress}}/api/clients/7/trips/9
+#Accept: application/json
 
-
+DELETE {{APBDTut8API_HostAddress}}/api/clients/26/trips/100
 
 
 ###

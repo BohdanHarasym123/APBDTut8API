@@ -142,7 +142,7 @@ public class TripService : ITripService
         
         if(currentCount >= maxPeople) throw new Exception("Trip is full");
 
-        //checking if client is not already registered to this trip
+        //checking if client is not already registered for this trip
         var checkRegistration = new SqlCommand(
             "SELECT 1 FROM client_trip WHERE IdTrip = @IdTrip AND IdClient = @IdClient", connection);
         checkRegistration.Parameters.AddWithValue("@IdTrip", tripId);
@@ -159,5 +159,41 @@ public class TripService : ITripService
         insert.Parameters.AddWithValue("@RegisteredAt", Int32.Parse(DateTime.Now.ToString("yyyyMMdd")));
         
         await insert.ExecuteNonQueryAsync();
+    }
+
+    public async Task DeleteRegistrationFromTripAsync(int clientId, int tripId)
+    {
+        using var connection = new SqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        //checking if client with such id exists
+        var checkClient = new SqlCommand(
+            "SELECT 1 FROM client WHERE IdClient = @IdClient", connection);
+        checkClient.Parameters.AddWithValue("@IdClient", clientId);
+        var existsClient = await checkClient.ExecuteScalarAsync();
+        if (existsClient == null) throw new Exception("Client not found");
+
+        //checking if trip with such id exists
+        var checkTrip = new SqlCommand(
+            "SELECT 1 FROM trip WHERE IdTrip = @IdTrip", connection);
+        checkTrip.Parameters.AddWithValue("@IdTrip", tripId);
+        var existsTrip = await checkTrip.ExecuteScalarAsync();
+        if (existsTrip == null) throw new Exception("Trip not found");
+
+        //checking if client is registered for this trip
+        var checkRegistration = new SqlCommand(
+            "SELECT 1 FROM client_trip WHERE IdTrip = @IdTrip AND IdClient = @IdClient", connection);
+        checkRegistration.Parameters.AddWithValue("@IdTrip", tripId);
+        checkRegistration.Parameters.AddWithValue("@IdClient", clientId);
+        var registration = await checkRegistration.ExecuteScalarAsync();
+        if(registration == null) throw new Exception("Client is not registered for this trip");
+        
+        //deleting registration
+        var delete = new SqlCommand(
+            "DELETE FROM client_trip WHERE IdClient = @IdClient AND IdTrip = @IdTrip", connection);
+        delete.Parameters.AddWithValue("@IdClient", clientId);
+        delete.Parameters.AddWithValue("@IdTrip", tripId);
+        
+        await delete.ExecuteNonQueryAsync();
     }
 }

@@ -5,7 +5,7 @@ namespace APBDTut8API.Controllers;
 
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api")]
 public class TripsController : ControllerBase
 {
     private readonly ITripService _service;
@@ -15,14 +15,14 @@ public class TripsController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
+    [HttpGet("trips")]
     public async Task<IActionResult> GetTrips()
     {
         var trips = await _service.GetTripsAsync();
         return Ok(trips);
     }
 
-    [HttpGet("/api/clients/{id}/trips")]
+    [HttpGet("clients/{id}/trips")]
     public async Task<IActionResult> GetClientTrips(int id)
     {
         try
@@ -73,6 +73,21 @@ public class TripsController : ControllerBase
         {
             if(ex.Message.Contains("not found")) return NotFound(ex.Message);
             
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpDelete("clients/{clientId}/trips/{tripId}")]
+    public async Task<IActionResult> DeleteClientRegistration(int clientId, int tripId)
+    {
+        try
+        {
+            await _service.DeleteRegistrationFromTripAsync(clientId, tripId);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            if(ex.Message.Contains("not found")) return NotFound(ex.Message);
             return StatusCode(500, ex.Message);
         }
     }
