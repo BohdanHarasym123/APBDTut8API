@@ -3,8 +3,8 @@
 #GET {{APBDTut8API_HostAddress}}/api/trips
 #Accept: application/json
 
-#GET {{APBDTut8API_HostAddress}}/api/clients/10/trips 
-#Accept: application/json
+GET {{APBDTut8API_HostAddress}}/api/clients/26/trips 
+Accept: application/json
 
 #POST {{APBDTut8API_HostAddress}}/api/clients
 #Content-Type: application/json
@@ -17,7 +17,7 @@
 #  "pesel": "12323322"
 #}
 
-#PUT {{APBDTut8API_HostAddress}}/api/clients/26/trips/10
+#PUT {{APBDTut8API_HostAddress}}/api/clients/9/trips/11
 
 #DELETE {{APBDTut8API_HostAddress}}/api/clients/26/trips/9
 

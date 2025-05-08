@@ -79,7 +79,7 @@ public class TripService : ITripService
                         DateTo = reader.GetDateTime(4),
                         MaxPeople = reader.GetInt32(5),
                         RegisteredAt = reader.GetInt32(6),
-                        PaymentDate = reader.GetInt32(7),
+                        PaymentDate = reader.IsDBNull(7) ? 0 : reader.GetInt32(7)
                     });
                 }
             }
