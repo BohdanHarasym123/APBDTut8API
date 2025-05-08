@@ -15,6 +15,7 @@ public class TripsController : ControllerBase
         _service = service;
     }
 
+    //returns list of trips with basic info
     [HttpGet("trips")]
     public async Task<IActionResult> GetTrips()
     {
@@ -22,6 +23,7 @@ public class TripsController : ControllerBase
         return Ok(trips);
     }
 
+    //returns all trips of a specific client 
     [HttpGet("clients/{id}/trips")]
     public async Task<IActionResult> GetClientTrips(int id)
     {
@@ -44,6 +46,7 @@ public class TripsController : ControllerBase
         }
     }
 
+    //creates a new client record 
     [HttpPost("clients")]
     public async Task<IActionResult> AddClient([FromBody] ClientDTO client)
     {
@@ -58,6 +61,7 @@ public class TripsController : ControllerBase
         }
     }
 
+    //registers a client with specified id for a trip with specified id 
     [HttpPut("clients/{clientId}/trips/{tripId}")]
     public async Task<IActionResult> RegisterClient(int clientId, int tripId)
     {
@@ -74,6 +78,7 @@ public class TripsController : ControllerBase
         }
     }
 
+    //deletes clients registration from a specified trip
     [HttpDelete("clients/{clientId}/trips/{tripId}")]
     public async Task<IActionResult> DeleteClientRegistration(int clientId, int tripId)
     {

@@ -17,8 +17,8 @@
 #  "pesel": "12323322"
 #}
 
-#PUT {{APBDTut8API_HostAddress}}/api/clients/7/trips/9
+#PUT {{APBDTut8API_HostAddress}}/api/clients/26/trips/10
 
-DELETE {{APBDTut8API_HostAddress}}/api/clients/26/trips/9
+#DELETE {{APBDTut8API_HostAddress}}/api/clients/26/trips/9
 
 ###
