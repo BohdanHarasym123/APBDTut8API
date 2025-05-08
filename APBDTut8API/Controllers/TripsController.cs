@@ -29,12 +29,14 @@ public class TripsController : ControllerBase
         {
             var trips = await _service.GetTripsForClientAsync(id);
 
+            if (trips == null) return NotFound(new { message = "Client with such id doesn't exist" });
+            
             if (trips.Any())
             {
                 return Ok(trips);
             }
             
-            return NotFound(new { message = "Client with such ID does not exist" });
+            return NotFound(new { message = "Client doesn't have any trips" });
         }
         catch (Exception ex)
         {

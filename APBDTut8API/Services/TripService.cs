@@ -50,6 +50,14 @@ public class TripService : ITripService
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
 
+        var checkClient = new SqlCommand(
+            "SELECT 1 FROM client WHERE IdClient = @IdClient", connection
+        );
+        checkClient.Parameters.AddWithValue("@IdClient", clientId);
+        
+        var exists = await checkClient.ExecuteScalarAsync();
+        if (exists == null) return null;
+
         using (var command = new SqlCommand(
             "SELECT t.IdTrip, t.Name, t.Description, t.DateFrom, t.DateTo, t.MaxPeople, ct.RegisteredAt, ct.PaymentDate FROM trip t JOIN client_trip ct ON t.IdTrip = ct.IdTrip WHERE ct.IdClient = @IdClient",
             connection
